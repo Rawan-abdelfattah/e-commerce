@@ -1,165 +1,214 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import axios from "axios";
+import {useFormik, yupToFormErrors } from "formik";
+import React, { useState } from "react";
+import {  useNavigate } from "react-router-dom";
+import * as Yup from "yup";
+import { baseUrl } from "../../utils/baseUrl";
 
 export default function Register() {
+  const [Isloading, setIsloading] = useState(false);
+  const [MessageError, setMessageError] = useState("");
+
+  let navigate = useNavigate();
+  async function handleRegister(values) {
+    setIsloading(true);
+    try {
+      const { data } = await axios.post(`${baseUrl}/auth/signup`, values);
+      setIsloading(false);
+  
+      if (data.message === "success") {
+        setIsloading(false);
+        navigate("/login");
+      }
+    } catch (error) {
+      setIsloading(false);
+      setMessageError(`${error.response.data.errors.msg }:${error.response.data.errors.param} `);
+      console.log(error.response.data); // Log the error response for debugging
+    }
+  }
+  
+  let validationSchema = Yup.object({
+    name: Yup.string().required("name is required").min(3, "name minlength 3").max(10, "name maxlength"),
+    email: Yup.string().required("email is required").email(),
+    password: Yup.string().required("Password is required").matches(/^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{6,10}$/, "Password must contain at least one uppercase and one lowercase letter"),
+    rePassword: Yup.string().required("rePassword is required").oneOf([Yup.ref('password')], "password dosnot  match"),
+    phone: Yup.string().required("phone is required").matches(/^01[0125][0-9]{8}$/, "phone must be egyption number"),
+  });
+
+  
+  let formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      password: "",
+      rePassword: "",
+      phone: ""
+    },
+    // validate,
+    validationSchema,
+    onSubmit: handleRegister
+  });
+
+  // function validate(values){
+  //   let errors={};
+
+  //   if(!values.name)
+  //   {
+  //     errors.name='Name is Required';
+  //   }else if(values.name.length < 3)
+  //   {
+  //     errors.name='Name minLength is 3';
+
+  //   }else if(values.name.length > 10)
+  //   {
+  //     errors.name='Name maxLength is 10';
+
+  //   }
+  //   if(!values.email)
+  //   {
+  //     errors.email='Email is Required';
+  //   }else if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email))
+
+  //   {
+  //     errors.email='Email is Required';
+
+  //   }
+
+  //   if(!values.password)
+  //   {
+  //     errors.password='Password is Required';
+  //   }else if(!/^[A-Z][a-z0-9]{5,10}$/i.test(values.password))
+  //   {
+  //     errors.password='Password is must start with uppercase........';
+
+  //   }
+  //   if(!values.rePassword)
+  //   {
+  //     errors.rePassword='rePassword is Required';
+  //   }else if(values.password !== values.rePassword)
+  //   {
+  //     errors.rePassword='password not match ';
+
+  //   }
+  //   if(!values.phone)
+  //   {
+  //     errors.phone='Phone is Required';
+  //   }else if(!/^01[0125][0-9]{8}$/i.test(values.phone))
+  //   {
+  //     errors.phone='Phone must be valid egy phone number';
+
+  //   }
+
+  //   return errors;
+  // }
+
   return (
-    <div>        <div class="container ">
-    <div class="row ">
-        <div class="col-6  m-auto mt-5 p-3 bg-white shadow">
-            <div>
-                <h1>Sign Up</h1>
-                <h6 class="text-secondary">It's quick and easy.</h6>
-                <hr />
-            </div>
-            <form action="createAccount.php" class="" method="post" autocomplete='off'>
-                <div class="row">
-                  
-                    <div class="col col-md-6">
-                        <input type="text" placeholder="First name" class="form-control m-2" id="fname" name="fname" required />
-                    </div>
-                    <div class="col col-md-6">
-                        <input type="text" name="sname" placeholder="Surname" class="form-control m-2" id="sname" required />
-                    </div>
-                </div>
-                <input type="email" placeholder="Email address" class="form-control m-2" id="email" name="email" required />
-                <input type="text" placeholder="Mobile number" class="form-control m-2" id="mobile" name="mobile" required />
-                <input type="password" placeholder="Password" class="form-control m-2 " id="password" name="password" minlength="10" required />
-                <input type="password" placeholder="Confirm password" class="form-control m-2 " id="confirmpassword" name="confirmpassword" minlength="10" required />
-                <div class="row m-1">
-                    <label for="" class="text-secondary m-2">
-                        Date of birth
-                    </label>
+    <>
+    
+      <div className="container">
+        <form
+          action=""
+          className="w-75 mx-auto py-3  "
+          onSubmit={formik.handleSubmit}
+        >
+          <h2>Register Now :</h2>
+{MessageError ? <div className="alert alert-danger">{MessageError}</div> : null}
 
-                    <div class="col-4">
-                        <select class="form-control " id="" name='day' required>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
-                            <option>7</option>
-                            <option>8</option>
-                            <option>9</option>
-                            <option>10</option>
-                            <option>11</option>
-                            <option>12</option>
-                            <option>13</option>
-                            <option>14</option>
-                            <option>15</option>
-                            <option>16</option>
-                            <option>17</option>
-                            <option>18</option>
-                            <option>19</option>
-                            <option>20</option>
-                            <option>21</option>
-                            <option>22</option>
-                            <option>23</option>
-                            <option>24</option>
-                            <option>25</option>
-                            <option>26</option>
-                            <option>27</option>
-                            <option>28</option>
-                            <option>29</option>
-                            <option>30</option>
-                            <option>31</option>
-                        </select>
-                    </div>
-                    <div class="col-4">
-                        <select class="form-control" id="" name="month" required>
-                            <option>Jan</option>
-                            <option>Feb</option>
-                            <option>Mar</option>
-                            <option>Apr</option>
-                            <option>May</option>
-                            <option>Jun</option>
-                            <option>Jul</option>
-                            <option>Aug</option>
-                            <option>Sep</option>
-                            <option>Oct</option>
-                            <option>Nov</option>
-                            <option>Dec</option>
-                        </select>
-                    </div>
-                    <div class="col-4 ">
-                        <select class="form-control" id="" name="year" required>
-                            <option>2002</option>
-                            <option>2003</option>
-                            <option>2004</option>
-                            <option>2005</option>
-                            <option>2006</option>
-                            <option>2007</option>
-                            <option>2008</option>
-                            <option>2009</option>
-                            <option>2010</option>
-                            <option>2011</option>
-                            <option>2012</option>
-                            <option>2013</option>
-                            <option>2014</option>
-                            <option>2015</option>
-                        </select>
-                    </div>
-                </div>
+          <label htmlFor="name">Name : </label>
+          <input
+            onBlur={formik.handleBlur}
+            type="text"
+            className="form-control"
+            name="name"
+            id="name"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+          />
+          {formik.errors.name && formik.touched.name ? (
+            <div className="alert alert-danger">{formik.errors.name}</div>
+          ) : (
+            ""
+          )}
 
-                <div class="row m-1">
-                    <label for="" class="text-secondary m-2">
-                        Gender
-                    </label>
-                    <div class="col-4">
-                        <div>
-                            <label class="form-check-label m-1  form-control" htmlFor="exampleRadios2">
-                                female
-                                <input class="form-check-input m-1" type="radio" id="exampleRadios2" defaultValue="f" defaultChecked value="f" name="gender" required />
-                            </label>
+          <label htmlFor="email">Email :</label>
+          <input
+            onBlur={formik.handleBlur}
+            type="email"
+            className="form-control"
+            name="email"
+            id="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+          />
+          {formik.errors.email && formik.touched.email ? (
+            <div className="alert alert-danger">{formik.errors.email}</div>
+          ) : (
+            ""
+          )}
 
+          <label htmlFor="password">Password :</label>
+          <input
+            onBlur={formik.handleBlur}
+            type="password"
+            className="form-control"
+            name="password"
+            id="password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+          />
+          {formik.errors.password && formik.touched.password ? (
+            <div className="alert alert-danger">{formik.errors.password}</div>
+          ) : (
+            ""
+          )}
 
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div>
-                            <label class="form-check-label m-1  form-control" htmlFor="exampleRadios1">
-                                male
-                                <input class="form-check-input m-1" type="radio" id="exampleRadios1" defaultValue="m" name="gender" value="m" required />
-                            </label>
+          <label htmlFor="rePassword">rePassword :</label>
+          <input
+            onBlur={formik.handleBlur}
+            type="password"
+            className="form-control"
+            name="rePassword"
+            id="rePassword"
+            value={formik.values.rePassword}
+            onChange={formik.handleChange}
+          />
+          {formik.errors.rePassword && formik.touched.rePassword ? (
+            <div className="alert alert-danger">{formik.errors.rePassword}</div>
+          ) : (
+            ""
+          )}
 
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div>
+          <label htmlFor="phone">Phone :</label>
+          <input
+            onBlur={formik.handleBlur}
+            type="tel"
+            className="form-control"
+            name="phone"
+            id="phone"
+            value={formik.values.phone}
+            onChange={formik.handleChange}
+          />
+          {formik.errors.phone && formik.touched.phone ? (
+            <div className="alert alert-danger">{formik.errors.phone}</div>
+          ) : (
+            ""
+          )}
 
-
-                        </div>
-                    </div>
-                </div>
-
-                <p class="text-secondary m-2 small ">
-                    People who use our service may have uploaded your contact
-                    information to FreshCard. Learn more. By clicking Sign Up, you
-                    agree to our Terms, Privacy Policy and Cookies Policy. You may
-                    receive SMS notifications from us and can opt out at any time.
-                </p>
-                <div class="text-center"> <label class="form-conrtrol m-2 fw-bold fs-4" for="">about</label>
-                </div>
-
-                <textarea placeholder="About" class="form-control m-2" id="about" name="about" minlength="10" required>
-        </textarea>
-
-
-                <a href="/regestration">
-                    <button class="btn text-white bg-main mt-4  form-control fw-bold" type="submit" name="submit">
-                        Sign Up
-                    </button>
-                </a>
-            </form>
-
-            <Link to="/login">
-                <button class='btn login_btn text-white mt-3 fw-bold'>log In</button>
-            </Link>
-
-
-        </div>
-    </div>
-</div>
-</div>
-  )
+          {Isloading ? (
+            <button type="button" className="btn text-white bg-main mt-2">
+              <i className="fas fa-spinner fa-spin "></i>
+            </button>
+          ) : (
+            <button
+            disabled={! (formik.isValid && formik.dirty)  }               
+            type="submit"
+            className="btn text-white bg-main mt-2"
+            >
+              Register
+            </button>
+          )}
+        </form>
+      </div>
+    </>
+  );
 }

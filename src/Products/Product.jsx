@@ -13,8 +13,11 @@ export default function Product({Products}) {
         <img src={items.imageCover} className='w-100 ' alt="" />
         <h6 className='text-main'>{items.category.name}</h6>
         <p className='fw-bold'>{items.title.split(' ').slice(0,2).join(' ')}</p>
-        <span>{items.price}EGP</span>
-        <p> ratingsAverage : {items.ratingsAverage}</p>
+        <div className='d-flex justify-content-between'>        
+                <span>{items.price}EGP</span>
+
+<p>        <i class="fa-solid fa-star rating-color"></i> {items.ratingsAverage}</p>
+</div>
 
         
         <butto className='btn bg-main text-white text-center w-100'>Add to Card</butto>
