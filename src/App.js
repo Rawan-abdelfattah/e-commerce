@@ -55,11 +55,11 @@ function App() {
   )
   return (
     <>
-      <CardContextProvider>
-        <div className='offline'>
-                <Offline >Only shown offline (surprise!)</Offline>
+      <CardContextProvider>  <div className='offline '>
+                <Offline className='p-4 m-4' > <h5 className="p-2">Only shown offline (surprise!)</h5> </Offline>
 
         </div>
+       
         <Toaster/>
         <RouterProvider router={routes} />
       </CardContextProvider>

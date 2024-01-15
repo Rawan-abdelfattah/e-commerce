@@ -20,7 +20,7 @@ export function CardContextProvider(props) {
       setNumOfCartItems(response?.data?.numOfCartItems)
     }
 
-    console.log(response?.data?.date?._id)
+    console.log(response.data?.data?._id)
   }
 
   useEffect(()=>{
@@ -65,8 +65,39 @@ export function CardContextProvider(props) {
     .catch((error) => error);
   }
 
+  function removeItem(productId) {
+    return axios.delete(
+      `${baseUrl}/cart/${productId}`,
+      {
+        headers: headers
+      },
+      {
+        productId: productId
+      }
+    )
+    .then((response) => response)
+    .catch((error) => error);
+  }
+
+  function updateCount(productId , count) {
+    return axios.put(
+      `${baseUrl}/cart/${productId}`,{count},
+      {
+        headers: headers
+      },
+      {
+        productId: productId
+      }, 
+   
+    )
+    .then((response) => response)
+    .catch((error) => error);
+  }
+
+
+
   return (
-    <cartContext.Provider value={{setNumOfCartItems ,  cardId , numOfCartItems , onlinePayment , addToCart , getLoggedUserCart}}>
+    <cartContext.Provider value={{updateCount , removeItem , setNumOfCartItems ,  cardId , numOfCartItems , onlinePayment , addToCart , getLoggedUserCart}}>
       {props.children}
     </cartContext.Provider>
   );
