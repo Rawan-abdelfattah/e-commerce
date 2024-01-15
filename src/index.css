@@ -10,12 +10,18 @@
 }
 .offline{
     position: fixed;
-    background-color: red !important;
+    background-color: white !important;
     z-index: 11111;
     bottom: 30px;
     right: 30px;
-    box-shadow: (var(--shadow)) !important;
+    padding: 10px 20px;
+    box-shadow: var(--shadow) !important;
+    text-shadow: var(--shadow);
 
+}
+
+.link{
+    text-decoration: none !important;
 }
 body{
     font-family: var(--font-family) !important;

@@ -17,6 +17,7 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import { CardContextProvider } from "./Context/CartContext";
 import { Toaster } from 'react-hot-toast';
 import { Offline } from "react-detect-offline";
+import CheckOut from "./components/CehckOut/CheckOut";
 
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
         { path: 'categories', element: <ProtectedRoute><Categories /></ProtectedRoute> },
         { path: 'card', element: <ProtectedRoute><Card /></ProtectedRoute> },
         { path: 'brands', element: <ProtectedRoute><Brands /></ProtectedRoute> },
+        { path: 'checkout', element: <ProtectedRoute><CheckOut /></ProtectedRoute> },
         { path: 'product-details/:id', element: <ProductsDetails /> },
         { path: 'login', element: <Login saveUserDate={saveUserDate} /> },
         { path: 'register', element: <Register /> },
@@ -54,7 +56,10 @@ function App() {
   return (
     <>
       <CardContextProvider>
-      <Offline className='offline'>Only shown offline (surprise!)</Offline>
+        <div className='offline'>
+                <Offline >Only shown offline (surprise!)</Offline>
+
+        </div>
         <Toaster/>
         <RouterProvider router={routes} />
       </CardContextProvider>

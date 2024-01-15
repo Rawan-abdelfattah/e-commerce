@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import logo from'../../images/freshcart-logo.svg';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NavLink } from "react-router-dom";
+import { cartContext } from "../../Context/CartContext";
+
 export default function Navbar({UserData ,logout}) {
+  let {numOfCartItems} = useContext(cartContext)
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary bg-main-light  ">
+      <nav className="fixed-top navbar navbar-expand-lg bg-body-tertiary bg-main-light  ">
         <div className="container ">
           <NavLink className="navbar-brand mt-2" to="/">
            <img src={logo} alt="" />
@@ -68,8 +71,8 @@ export default function Navbar({UserData ,logout}) {
                  <button type="button" className="btn  position-relative ">
                    Card
                    <i class="fa-solid fa-cart-shopping text-main"></i>
-                   <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-                     10
+                   <span className="position-absolute top-0 start-70 translate-middle badge rounded-pill bg-success">
+               {numOfCartItems}
                      <span className="visually-hidden">unread messages</span>
                    </span>
                  </button>
