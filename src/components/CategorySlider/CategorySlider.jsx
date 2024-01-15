@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Slider from "react-slick";
 import {baseUrl} from '../../utils/baseUrl.js';
+import './CategorySlider.css'
 export default function CategorySlider() {
   var settings = {
     dots: true,
@@ -33,8 +34,8 @@ export default function CategorySlider() {
       <h2>Shop popular Categories</h2>
     <Slider {...settings}>  
       {categories.map((items)=>{
-        return (<div key={items._id}>
-        <img src={items.image} className='w-100' height={250} alt="" />
+        return (<div className='' key={items._id}>
+        <img src={items.image} className='w-100 category-slider'  alt="" />
         <h6>{items.name}</h6>
         </div>
         )

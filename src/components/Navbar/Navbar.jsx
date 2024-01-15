@@ -44,25 +44,15 @@ export default function Navbar({UserData ,logout}) {
                   Brands
                 </NavLink>
               </li>
-            </ul>: null} 
+            </ul>
+            : null} 
 
           
 
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0 mt-2">
 
               {UserData ==null? <>
-                 <li className="nav-item">
-                <NavLink classname="nav-link" to="/card">
-                  <button type="button" className="btn  position-relative ">
-                    Card
-                    <i class="fa-solid fa-cart-shopping text-main"></i>
-                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-                      10
-                      <span className="visually-hidden">unread messages</span>
-                    </span>
-                  </button>
-                </NavLink>
-              </li>
+                
               <li className="nav-item">
                 <NavLink className="nav-link" to="/login">
                   LogIn
@@ -72,11 +62,26 @@ export default function Navbar({UserData ,logout}) {
                 <NavLink className="nav-link" to="/register">
                   Register
                 </NavLink>
-              </li></>:   <li className="nav-item">
+              </li></>:   <>
+                       <li className="nav-item">
+               <NavLink classname="nav-link" to="/card">
+                 <button type="button" className="btn  position-relative ">
+                   Card
+                   <i class="fa-solid fa-cart-shopping text-main"></i>
+                   <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                     10
+                     <span className="visually-hidden">unread messages</span>
+                   </span>
+                 </button>
+               </NavLink>
+             </li>
+              <li className="nav-item">
                 <span onClick={logout} className="nav-link cursor-pointer" to="/">
                   LogOut
                 </span>
-              </li>}
+              </li>
+              </>
+      }
           
            
             </ul>

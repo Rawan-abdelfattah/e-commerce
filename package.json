@@ -14,9 +14,13 @@
     "cra-template": "1.2.0",
     "font-awesome": "^4.7.0",
     "formik": "^2.4.2",
+    "helmet": "^7.1.0",
     "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
+    "react-detect-offline": "^2.4.5",
     "react-dom": "^18.2.0",
+    "react-helmet": "^6.1.0",
+    "react-hot-toast": "^2.4.1",
     "react-jwt": "^1.2.0",
     "react-router-dom": "^6.12.1",
     "react-scripts": "5.0.1",
@@ -25,13 +29,15 @@
     "web-vitals": "^3.3.1",
     "yup": "^1.2.0"
   },
+  "main": "./main.js",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "electron": "electron ."
   },
   "eslintConfig": {
     "extends": [
@@ -52,6 +58,7 @@
     ]
   },
   "devDependencies": {
+    "electron": "^26.2.4",
     "gh-pages": "^5.0.0"
   }
 }

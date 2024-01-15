@@ -1,13 +1,12 @@
 import axios from "axios";
-import {useFormik, yupToFormErrors } from "formik";
+import { useFormik, yupToFormErrors } from "formik";
 import React, { useState } from "react";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { baseUrl } from "../../utils/baseUrl";
+import { Helmet } from "react-helmet";
 
 export default function Login(props) {
-
-
   const [Isloading, setIsloading] = useState(false);
   const [MessageError, setMessageError] = useState("");
 
@@ -17,12 +16,12 @@ export default function Login(props) {
     try {
       const { data } = await axios.post(`${baseUrl}/auth/signin`, values);
       setIsloading(false);
-  
+
       if (data.message === "success") {
         setIsloading(false);
         navigate("/");
-        localStorage.setItem('userToken',data.token)
-        props.saveUserDate()
+        localStorage.setItem("userToken", data.token);
+        props.saveUserDate();
       }
     } catch (error) {
       setIsloading(false);
@@ -30,14 +29,17 @@ export default function Login(props) {
       console.log(error.response.data); // Log the error response for debugging
     }
   }
-  
-  
+
   let validationSchema = Yup.object({
     email: Yup.string().required("email is required").email(),
-    password: Yup.string().required("Password is required").matches(/^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{6,10}$/, "Password must contain at least one uppercase and one lowercase letter"),
+    password: Yup.string()
+      .required("Password is required")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{6,10}$/,
+        "Password must contain at least one uppercase and one lowercase letter"
+      ),
   });
 
-  
   let formik = useFormik({
     initialValues: {
       email: "",
@@ -45,33 +47,36 @@ export default function Login(props) {
     },
     // validate,
     validationSchema,
-    onSubmit: handleLogin
+    onSubmit: handleLogin,
   });
-
-
 
   return (
     <>
-      <div className="container">
+      {" "}
+      <Helmet>
+        <title>Login</title>
+      </Helmet>
+      <div className="container ">
         <form
           action=""
           className="w-75 mx-auto py-3  "
           onSubmit={formik.handleSubmit}
         >
           <h2>Login Now :</h2>
-          {MessageError && <div className="alert alert-danger">{MessageError}</div>}
+          {MessageError && (
+            <div className="alert alert-danger">{MessageError}</div>
+          )}
 
-        
           <label htmlFor="email">Email :</label>
-          
+
           <input
-            onBlur={formik.handleBlur}
             type="email"
             className="form-control"
             name="email"
             id="email"
             value={formik.values.email}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
           />
           {formik.errors.email && formik.touched.email ? (
             <div className="alert alert-danger">{formik.errors.email}</div>
@@ -81,13 +86,13 @@ export default function Login(props) {
 
           <label htmlFor="password">Password :</label>
           <input
-            onBlur={formik.handleBlur}
             type="password"
             className="form-control"
             name="password"
             id="password"
             value={formik.values.password}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
           />
           {formik.errors.password && formik.touched.password ? (
             <div className="alert alert-danger">{formik.errors.password}</div>
@@ -95,16 +100,15 @@ export default function Login(props) {
             ""
           )}
 
-
           {Isloading ? (
             <button type="button" className="btn text-white bg-main mt-2">
               <i className="fas fa-spinner fa-spin "></i>
             </button>
           ) : (
             <button
-            disabled={! (formik.isValid && formik.dirty)  }               
-            type="submit"
-            className="btn text-white bg-main mt-2"
+              disabled={!(formik.isValid && formik.dirty)}
+              type="submit"
+              className="btn text-white bg-main mt-2"
             >
               Login
             </button>

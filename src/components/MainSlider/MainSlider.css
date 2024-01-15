@@ -1,0 +1,12 @@
+/* Default height for the images */
+.slider-image {
+    height: 200px;
+  }
+  
+  /* Media query for large screens (adjust the max-width value as needed) */
+  @media screen and (min-width: 1024px) {
+    .slider-image {
+      height: 450px; /* Set the desired height for large screens */
+    }
+  }
+  

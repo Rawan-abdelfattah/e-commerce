@@ -13,9 +13,15 @@ export default function MainLayout({UserData , setUserData}) {
   }
   return (
     <>
-    <Navbar UserData={UserData} logout={logout}/>
-    <Outlet/>
-    <Footer/>
+   <div className='d-flex flex-column' style={{ minHeight: '100vh' }}>
+      <Navbar UserData={UserData} logout={logout} />
+      
+      <div className='flex-grow-1'>
+        <Outlet />
+      </div>
+
+     <Footer/>
+    </div>
     </>
   )
 }

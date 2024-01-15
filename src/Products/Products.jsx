@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { baseUrl } from "../utils/baseUrl.js";
 import axios from "axios";
 import Product from "./Product.jsx";
-
+ 
 export default function Products() {
   const [products, setProducts] = useState([]);
   const  [isLoading, setisLoading] = useState(false);
+
 
   const getAllCategories = async () => {
     setisLoading(true)

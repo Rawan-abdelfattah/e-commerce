@@ -1,0 +1,9 @@
+.category-slider{
+    height: 100px;
+}
+@media screen and (min-width: 1024px) {
+    .category-slider{
+        height: 200px;
+    }
+  }
+  

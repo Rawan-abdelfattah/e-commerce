@@ -7,9 +7,12 @@ export default function HomePage() {
 
   return (
     <>
-    <MainSlider/>
+    <div className="container-fluid">
+       <MainSlider/>
     <CategorySlider/>
     <Products/>
+    </div>
+   
    
     </>
   )

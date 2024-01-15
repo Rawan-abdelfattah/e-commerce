@@ -116,13 +116,14 @@ export default function Register() {
 
           <label htmlFor="name">Name : </label>
           <input
-            onBlur={formik.handleBlur}
             type="text"
             className="form-control"
             name="name"
             id="name"
             value={formik.values.name}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+
           />
           {formik.errors.name && formik.touched.name ? (
             <div className="alert alert-danger">{formik.errors.name}</div>

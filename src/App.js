@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
-import "./App.css";
-import {RouterProvider,createBrowserRouter } from 'react-router-dom';
+import "./App.css"; 
+import { RouterProvider, createHashRouter } from 'react-router-dom';
 import MainLayout from "./Layouts/MainLayout";
 import HomePage from "./Pages/HomePage";
 import Products from "./Products/Products";
@@ -14,50 +14,50 @@ import Categories from "./components/Categories/Categories";
 import { useEffect, useState } from "react";
 import jwtDecode from "jwt-decode";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import { CardContextProvider } from "./Context/CartContext";
+import { Toaster } from 'react-hot-toast';
+import { Offline } from "react-detect-offline";
 
 
 function App() {
-  function saveUserDate()
-  {
-   let encodedToken= localStorage.getItem('userToken')
-   let decodedToken=jwtDecode(encodedToken)
-   setUserData(decodedToken)
+  function saveUserDate() {
+    let encodedToken = localStorage.getItem('userToken')
+    let decodedToken = jwtDecode(encodedToken)
+    setUserData(decodedToken)
   }
-  useEffect(()=>{
-    if(localStorage.getItem('userToken')!==null){
+  useEffect(() => {
+    if (localStorage.getItem('userToken') !== null) {
       saveUserDate();
     }
-  },[])
+  }, [])
   const [UserData, setUserData] = useState(null)
 
-  let routes=createBrowserRouter([
+  let routes = createHashRouter([
     {
-      pass:'',
-      element:<MainLayout UserData={UserData} setUserData={setUserData}/>,
-      children:[ 
-        {index:true , element:<HomePage />},
-        {path:'products' , element:<ProtectedRoute><Products/></ProtectedRoute> },
-        {path:'About' , element:<ProtectedRoute><About/></ProtectedRoute>},
-        {path:'categories' , element:<ProtectedRoute><Categories/></ProtectedRoute>},
-        {path:'card' , element:<ProtectedRoute><Card/></ProtectedRoute>},
-        {path:'brands' , element:<ProtectedRoute><Brands/></ProtectedRoute>},
-        {path:'product-details/:id' , element:<ProductsDetails/>},
-        {path:'login' , element:<Login saveUserDate={saveUserDate}/>},
-        {path:'register' , element:<Register/>},
-        // {path:'*' , element:<NotFound/>},
-
+      pass: '',
+      element: <MainLayout UserData={UserData} setUserData={setUserData} />,
+      children: [
+        { index: true, element: <HomePage /> },
+        { path: 'products', element: <ProtectedRoute><Products /></ProtectedRoute> },
+        { path: 'About', element: <ProtectedRoute><About /></ProtectedRoute> },
+        { path: 'categories', element: <ProtectedRoute><Categories /></ProtectedRoute> },
+        { path: 'card', element: <ProtectedRoute><Card /></ProtectedRoute> },
+        { path: 'brands', element: <ProtectedRoute><Brands /></ProtectedRoute> },
+        { path: 'product-details/:id', element: <ProductsDetails /> },
+        { path: 'login', element: <Login saveUserDate={saveUserDate} /> },
+        { path: 'register', element: <Register /> },
+        //{path:'*' , element:<NotFound/>},
       ]
     },
   ]
-
   )
   return (
     <>
-    <counterContext>
-          <RouterProvider router={routes}/>
-
-    </counterContext>
-
+      <CardContextProvider>
+      <Offline className='offline'>Only shown offline (surprise!)</Offline>
+        <Toaster/>
+        <RouterProvider router={routes} />
+      </CardContextProvider>
     </>
   );
 }
