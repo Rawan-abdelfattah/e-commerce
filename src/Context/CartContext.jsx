@@ -16,7 +16,7 @@ export function CardContextProvider(props) {
   async function getCard(){
     let response = await getLoggedUserCart();
     if(response.data.status == 'success'){
-      setCardId(response?.data?.date?._id)
+      setCardId(response?.data?.data?._id)
       setNumOfCartItems(response?.data?.numOfCartItems)
     }
 
@@ -54,7 +54,7 @@ export function CardContextProvider(props) {
 
   function onlinePayment(cardId , shippingAddress) {
     return axios.post(
-      `${baseUrl}/order/checkout-session/${cardId}?url=http://localhost:3000`,
+      `${baseUrl}/orders/checkout-session/${cardId}?url=http://localhost:3000`,
       {
         shippingAddress: shippingAddress
       },{
